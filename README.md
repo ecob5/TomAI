@@ -17,13 +17,9 @@ does not send notifications or provide medical advice.
 
 ## Current files
 
-- `app.py` creates the Flask application and defines authentication, medication,
-  dashboard, and dose-status routes.
-- `database.py` manages the SQLite connection and the database initialization
-  command.
-- `schema.sql` contains the first draft of the relational database design.
-- `templates/` contains the shared layout, authentication form, dashboard, and
-  about page.
+- `app.py` creates the Flask application and defines the demo dashboard and
+  about page routes.
+- `templates/` contains the shared layout, dashboard, and about page.
 - `static/styles.css` contains the responsive visual design.
 - `requirements.txt` lists the Python dependency required by the application.
 
@@ -37,10 +33,9 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Initialize the local database and start Flask:
+Start Flask:
 
 ```powershell
-flask --app app init-db
 flask --app app run --debug
 ```
 
@@ -56,9 +51,9 @@ python -m unittest discover -s tests -v
 
 ## Current limitations
 
-The basic version supports one daily reminder time per medication. It does not
-yet include email/browser notifications, editing, multiple times per day,
-inventory tracking, or medical recommendations.
+The current version is an interface-only demonstration with sample data. It
+does not include accounts, persistence, notifications, editing, inventory
+tracking, or medical recommendations.
 
 ## AI assistance disclosure
 

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}TomAI — Medication reminders{% endblock %}
+{% block content %}
+<section class="dashboard-heading"><div><p class="eyebrow">{{ today }} · Demo mode</p><h1>Good morning.</h1><p class="lead">A simple overview of your medication routine.</p></div></section>
+<section class="dashboard-grid">
+    <div class="card"><h2>Add medication</h2><form class="form-grid" onsubmit="return false;"><label>Medication name<input placeholder="e.g. Vitamin D"></label><label>Dosage<input placeholder="e.g. 1 capsule"></label><label>Reminder time<input type="time" value="08:00"></label><label>Instructions <span class="optional">(optional)</span><input placeholder="e.g. after breakfast"></label><button class="button primary" type="submit">Add medication</button></form></div>
+    <div class="card"><h2>Today's doses</h2><div class="dose-list">{% for item in schedules %}<div class="dose"><div><strong>{{ item['reminder_time'] }} · {{ item['name'] }}</strong><small>{{ item['dosage'] }}</small></div><span class="status {{ item['status'] }}">{{ {'pending':'Pending','taken':'Taken','skipped':'Skipped'}[item['status']] }}</span>{% if item['status'] == 'pending' %}<div class="dose-actions"><button class="small-button" type="button">Mark taken</button><button class="small-button muted-button" type="button">Skip</button></div>{% endif %}</div>{% endfor %}</div></div>
+</section>
+<section class="card medication-card"><h2>Your medications</h2><div class="medication-list">{% for medication in medications %}<div><span><strong>{{ medication['name'] }}</strong><small>{{ medication['dosage'] }} · {{ medication['instructions'] }}</small></span><button class="link-button" type="button">Remove</button></div>{% endfor %}</div></section>
+{% endblock %}

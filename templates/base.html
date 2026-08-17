@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#315c47">
+        <title>{% block title %}TomAI{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+        <header class="site-header">
+            <a class="brand" href="{{ url_for('index') }}">Tom<span>AI</span></a>
+            <nav aria-label="Main navigation"><a href="{{ url_for('index') }}">Home</a><a href="{{ url_for('about') }}">About</a></nav>
+        </header>
+        <main class="page">{% block content %}{% endblock %}</main>
+        <footer><p>TomAI is a reminder tool and does not provide medical advice.</p></footer>
+    </body>
+</html>

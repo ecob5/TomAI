@@ -13,3 +13,75 @@
     <p class="form-foot">{% if mode == 'register' %}Já tem conta? <a href="{{ url_for('login') }}">Entrar</a>{% else %}Ainda não tem conta? <a href="{{ url_for('register') }}">Cadastrar</a>{% endif %}</p>
 </section>
 {% endblock %}
+{% extends "base.html" %}
+
+{% if mode == "register" %}
+    {% set page_title = "Criar conta" %}
+    {% set heading = "Crie sua conta" %}
+    {% set button_text = "Cadastrar" %}
+{% else %}
+    {% set page_title = "Entrar" %}
+    {% set heading = "Bem-vindo de volta" %}
+    {% set button_text = "Entrar" %}
+{% endif %}
+
+{% block title %}{{ page_title }} — TomAI{% endblock %}
+
+{% block content %}
+<section class="card auth-card">
+    <p class="eyebrow">TomAI</p>
+    <h1>{{ heading }}</h1>
+
+    <form method="post" class="form-grid">
+        {% if mode == "register" %}
+        <label for="name">
+            Nome
+            <input
+                id="name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+            >
+        </label>
+        {% endif %}
+
+        <label for="email">
+            E-mail
+            <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+            >
+        </label>
+
+        <label for="password">
+            Senha
+            <input
+                id="password"
+                name="password"
+                type="password"
+                minlength="4"
+                autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}"
+                required
+            >
+        </label>
+
+        <button class="button primary" type="submit">
+            {{ button_text }}
+        </button>
+    </form>
+
+    <p class="form-foot">
+        {% if mode == "register" %}
+            Já tem uma conta?
+            <a href="{{ url_for('login') }}">Entre por aqui</a>.
+        {% else %}
+            Primeira vez no TomAI?
+            <a href="{{ url_for('register') }}">Crie uma conta</a>.
+        {% endif %}
+    </p>
+</section>
+{% endblock %}

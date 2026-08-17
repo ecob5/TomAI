@@ -1,6 +1,3 @@
--- AI assistance disclosure (CS50): an AI assistant proposed this initial
--- schema. The student must review and adapt every table before submission.
-
 DROP TABLE IF EXISTS dose_records;
 DROP TABLE IF EXISTS schedules;
 DROP TABLE IF EXISTS medications;

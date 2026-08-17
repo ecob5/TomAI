@@ -1,10 +1,100 @@
 {% extends "base.html" %}
-{% block title %}TomAI — Medication reminders{% endblock %}
+
+{% block title %}TomAI — Lembretes de medicamentos{% endblock %}
+
 {% block content %}
-<section class="dashboard-heading"><div><p class="eyebrow">{{ today }} · Demo mode</p><h1>Good morning.</h1><p class="lead">A simple overview of your medication routine.</p></div></section>
-<section class="dashboard-grid">
-    <div class="card"><h2>Add medication</h2><form class="form-grid" onsubmit="return false;"><label>Medication name<input placeholder="e.g. Vitamin D"></label><label>Dosage<input placeholder="e.g. 1 capsule"></label><label>Reminder time<input type="time" value="08:00"></label><label>Instructions <span class="optional">(optional)</span><input placeholder="e.g. after breakfast"></label><button class="button primary" type="submit">Add medication</button></form></div>
-    <div class="card"><h2>Today's doses</h2><div class="dose-list">{% for item in schedules %}<div class="dose"><div><strong>{{ item['reminder_time'] }} · {{ item['name'] }}</strong><small>{{ item['dosage'] }}</small></div><span class="status {{ item['status'] }}">{{ {'pending':'Pending','taken':'Taken','skipped':'Skipped'}[item['status']] }}</span>{% if item['status'] == 'pending' %}<div class="dose-actions"><button class="small-button" type="button">Mark taken</button><button class="small-button muted-button" type="button">Skip</button></div>{% endif %}</div>{% endfor %}</div></div>
-</section>
-<section class="card medication-card"><h2>Your medications</h2><div class="medication-list">{% for medication in medications %}<div><span><strong>{{ medication['name'] }}</strong><small>{{ medication['dosage'] }} · {{ medication['instructions'] }}</small></span><button class="link-button" type="button">Remove</button></div>{% endfor %}</div></section>
+    {% if current_user %}
+        <section class="dashboard-heading">
+            <p class="eyebrow">{{ today }}</p>
+            <h1>Olá, {{ current_user['name'] }}.</h1>
+            <p class="lead">Veja os medicamentos e horários de hoje.</p>
+        </section>
+
+        <section class="dashboard-grid">
+            <div class="card">
+                <h2>Adicionar medicamento</h2>
+                <form class="form-grid" action="{{ url_for('add_medication') }}" method="post">
+                    <label>Nome <input name="name" placeholder="Ex.: Vitamina D" required></label>
+                    <label>Dosagem <input name="dosage" placeholder="Ex.: 1 comprimido" required></label>
+                    <label>Horário <input type="time" name="reminder_time" required></label>
+                    <label>
+                        Instruções <span class="optional">(opcional)</span>
+                        <input name="instructions" placeholder="Ex.: após o café">
+                    </label>
+                    <label>
+                        Quantidade em estoque <span class="optional">(opcional)</span>
+                        <input type="number" name="stock_quantity" min="0">
+                    </label>
+                    <button class="button primary" type="submit">Adicionar</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Doses de hoje</h2>
+                {% if schedules %}
+                    <div class="dose-list">
+                        {% for item in schedules %}
+                            <div class="dose">
+                                <div>
+                                    <strong>{{ item['reminder_time'] }} · {{ item['name'] }}</strong>
+                                    <small>{{ item['dosage'] }}</small>
+                                </div>
+                                <span class="status {{ item['status'] }}">
+                                    {{ {'pending': 'Pendente', 'taken': 'Tomada', 'skipped': 'Pulada'}[item['status']] }}
+                                </span>
+                                {% if item['status'] == 'pending' %}
+                                    <div class="dose-actions">
+                                        <form action="{{ url_for('update_dose', schedule_id=item['schedule_id'], status='taken') }}" method="post">
+                                            <button class="small-button" type="submit">Tomei</button>
+                                        </form>
+                                        <form action="{{ url_for('update_dose', schedule_id=item['schedule_id'], status='skipped') }}" method="post">
+                                            <button class="small-button muted-button" type="submit">Pular</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="empty">Você ainda não cadastrou nenhum horário.</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="card medication-card">
+            <h2>Meus medicamentos</h2>
+            {% if medications %}
+                <div class="medication-list">
+                    {% for medication in medications %}
+                        <div>
+                            <span>
+                                <strong>{{ medication['name'] }}</strong>
+                                <small>
+                                    {{ medication['dosage'] }}
+                                    {% if medication['instructions'] %} · {{ medication['instructions'] }}{% endif %}
+                                </small>
+                            </span>
+                            <form action="{{ url_for('delete_medication', medication_id=medication['id']) }}" method="post">
+                                <button class="link-button" type="submit">Remover</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="empty">Nenhum medicamento cadastrado.</p>
+            {% endif %}
+        </section>
+    {% else %}
+        <section class="hero">
+            <p class="eyebrow">Sua rotina em um só lugar</p>
+            <h1>Não esqueça a hora do seu medicamento.</h1>
+            <p class="lead">
+                Cadastre seus horários e acompanhe as doses que já tomou durante o dia.
+            </p>
+            <div class="actions">
+                <a class="button primary" href="{{ url_for('register') }}">Criar conta</a>
+                <a class="button secondary" href="{{ url_for('login') }}">Entrar</a>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}

@@ -1,15 +1,29 @@
 {% extends "base.html" %}
+
 {% block title %}{{ 'Criar conta' if mode == 'register' else 'Entrar' }} — TomAI{% endblock %}
+
 {% block content %}
-<section class="card auth-card">
-    <p class="eyebrow">TomAI</p>
-    <h1>{{ 'Criar sua conta' if mode == 'register' else 'Bem-vindo de volta' }}</h1>
-    <form method="post" class="form-grid">
-        {% if mode == 'register' %}<label>Nome<input name="name" required></label>{% endif %}
-        <label>E-mail<input type="email" name="email" required></label>
-        <label>Senha<input type="password" name="password" minlength="4" required></label>
-        <button class="button primary" type="submit">{{ 'Cadastrar' if mode == 'register' else 'Entrar' }}</button>
-    </form>
-    <p class="form-foot">{% if mode == 'register' %}Já tem conta? <a href="{{ url_for('login') }}">Entrar</a>{% else %}Ainda não tem conta? <a href="{{ url_for('register') }}">Cadastrar</a>{% endif %}</p>
-</section>
+    <section class="card auth-card">
+        <p class="eyebrow">TomAI</p>
+        <h1>{{ 'Criar sua conta' if mode == 'register' else 'Bem-vindo de volta' }}</h1>
+
+        <form method="post" class="form-grid">
+            {% if mode == 'register' %}
+                <label>Nome <input name="name" required></label>
+            {% endif %}
+            <label>E-mail <input type="email" name="email" required></label>
+            <label>Senha <input type="password" name="password" minlength="4" required></label>
+            <button class="button primary" type="submit">
+                {{ 'Cadastrar' if mode == 'register' else 'Entrar' }}
+            </button>
+        </form>
+
+        <p class="form-foot">
+            {% if mode == 'register' %}
+                Já tem uma conta? <a href="{{ url_for('login') }}">Entrar</a>
+            {% else %}
+                Ainda não tem uma conta? <a href="{{ url_for('register') }}">Cadastrar</a>
+            {% endif %}
+        </p>
+    </section>
 {% endblock %}

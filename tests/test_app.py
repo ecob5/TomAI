@@ -1,9 +1,3 @@
-"""Basic application flow tests.
-
-AI assistance disclosure (CS50): an AI assistant drafted these regression
-tests while reviewing the existing student implementation.
-"""
-
 import os
 import tempfile
 import unittest

@@ -1,10 +1,23 @@
 {% extends "base.html" %}
-{% block title %}About — TomAI{% endblock %}
+
+{% block title %}Sobre — TomAI{% endblock %}
+
 {% block content %}
-<section class="card prose">
-    <p class="eyebrow">About the project</p>
-    <h1>TomAI</h1>
-    <p>TomAI is a CS50 final project designed to make medication routines easier to organize. This version is a simple interface demonstration of a medication dashboard.</p>
-    <p>TomAI does not diagnose conditions, recommend medication, or decide dosages. Always follow instructions provided by a qualified health professional.</p>
-</section>
+    <section class="card prose">
+        <p class="eyebrow">Sobre o projeto</p>
+        <h1>TomAI</h1>
+        <p>
+            O TomAI é o meu projeto final do CS50. A ideia surgiu da dificuldade de
+            lembrar vários horários de medicamentos ao longo do dia.
+        </p>
+        <p>
+            No site, cada pessoa pode cadastrar seus medicamentos, consultar os
+            horários do dia e registrar se tomou ou pulou uma dose.
+        </p>
+        <p>
+            O projeto serve apenas como ferramenta de organização. Ele não indica
+            tratamentos, medicamentos ou dosagens. Essas orientações devem vir de
+            um profissional de saúde.
+        </p>
+    </section>
 {% endblock %}
